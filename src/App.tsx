@@ -1,3 +1,5 @@
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
+import { PaperPlaneTilt } from 'phosphor-react';
 import { Header } from './components/Header/Header';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import { Post } from './components/Post/Post';
@@ -19,30 +21,39 @@ interface IPost {
   content: string;
 }
 
-const posts: IPost[] = [
-  {
-    id: 1,
-    author: {
-      avatarUrl: 'https://avatars.githubusercontent.com/u/16003265?v=4',
-      name: 'Vilson Castilho',
-      role: 'Software Engineer',
-    },
-    content: 'Fala galeraa 👋 Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀 👉 jane.design/doctorcare',
-    publishedAt: new Date('2023-10-04 10:00:00'),
-  },
-  {
-    id: 2,
-    author: {
-      avatarUrl: 'https://avatars.githubusercontent.com/u/16003265?v=4',
-      name: 'Fulano de Tal',
-      role: 'CTO @ mything',
-    },
-    content: 'Fala galeraa! Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare, jane.design/doctorcare.',
-    publishedAt: new Date('2023-10-04 11:00:00'),
-  },
-];
-
 export function App() {
+  const [ posts, setPosts ] = useState([] as IPost[]);
+  const [ newPostText, setNewPostText ] = useState('');
+
+  function handleCreateNewPost(event: FormEvent) {
+    event.preventDefault();
+
+    const newPost: IPost = {
+      id: 12,
+      author: {
+        avatarUrl: 'https://avatars.githubusercontent.com/u/16003265?v=4',
+        name: 'Vilson Castilho',
+        role: 'Software Engineer',
+      },
+      content: newPostText,
+      publishedAt: new Date,
+    }
+    
+    setPosts([...posts, newPost]);
+    setNewPostText('');
+  }
+
+  function handleNewPostChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity('');
+    setNewPostText(event.target.value);
+  }
+
+  function handleNewPostInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity('Essa campo é obrigatório!');
+  }
+
+  const isNewPostEmpty = newPostText.length === 0;
+
   return (
     <>
       <Header />
@@ -51,6 +62,23 @@ export function App() {
         <Sidebar />
 
         <main>
+          <form className={styles.postForm} onSubmit={handleCreateNewPost} >
+            <textarea
+              name="post"
+              placeholder="Compartilhe o que você está pensando"
+              value={newPostText}
+              onChange={handleNewPostChange}
+              onInvalid={handleNewPostInvalid}
+              required
+            />
+
+            <div className={styles.sendPostButton}>
+              <button type="submit" disabled={isNewPostEmpty}>
+                <PaperPlaneTilt size={24}/>
+              </button>
+            </div>
+          </form>
+
           {posts.map(post => {
             return (
               <Post

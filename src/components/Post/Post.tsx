@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
+import { PaperPlaneTilt } from 'phosphor-react';
 import { Avatar } from '../Avatar/Avatar';
 import { Comment } from '../Comment/Comment';
 
@@ -84,8 +85,6 @@ export function Post({post}: IPostProps) {
       </div>
 
       <form className={styles.commentForm} onSubmit={handleCreateNewComment} >
-        <strong>Deixe seu feedback</strong>
-
         <textarea
           name="comment"
           placeholder="Deixe seu comentário"
@@ -95,11 +94,11 @@ export function Post({post}: IPostProps) {
           required
         />
 
-        <footer>
+        <div className={styles.sendCommentButton}>
           <button type="submit" disabled={isNewCommentEmpty}>
-            Publicar
+            <PaperPlaneTilt size={20} />
           </button>
-        </footer>
+        </div>
       </form>
 
       <div className={styles.commentList}>

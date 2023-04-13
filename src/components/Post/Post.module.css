@@ -65,9 +65,11 @@
   border-top: 1px solid var(--gray-600);
 }
 
-.commentForm > strong {
-  line-height: 1.6;
-  color: var(--gray-100);
+.commentForm:focus-within {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .commentForm textarea {
@@ -80,33 +82,29 @@
   border-radius: 8px;
   color: var(--gray-100);
   line-height: 1.4;
-  margin-top: 1rem;
 }
 
-.commentForm footer {
+.sendCommentButton {
   visibility: hidden;
   max-height: 0;
 }
 
-.commentForm:focus-within footer {
+.commentForm:focus-within .sendCommentButton {
   visibility: visible;
   max-height: none;
 }
 
 .commentForm button[type=submit] {
-  padding: 1rem 1.5rem;
-  margin-top: 1rem;
-  border-radius: 8px;
+  padding: 1rem;
   border: 0;
-  background: var(--green-500);
+  background: none;
   color: var(--white);
-  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.1s;
+  transition: color 0.1s;
 }
 
 .commentForm button[type=submit]:not(:disabled):hover {
-  background: var(--green-300);
+  color: var(--green-300);
 }
 
 .commentForm button[type=submit]:disabled {
